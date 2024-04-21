@@ -14,4 +14,4 @@ java -jar attach-agent-jar-with-dependencies.jar MyClass com.just.MyClass D:\Pro
 Exception in thread "main" java.lang.UnsatisfiedLinkError: sun.tools.attach.WindowsAttachProvider.tempPath()Ljava/lang/String;
 ```
 
-但是也不是完全用不了，只是要能够根据当前的运行平台切换 `AttachProvider` 就可以了。但是我发现 `Windows` 的 `tools.jar` 没有 `LinuxAttachProvider`，也就无法在 `Linux` 下用了。我没有找到有 `LinuxAttachProvider` 的 `tools.jar`。因此 `Linux` 下建议如果需要动态修改类，只能在程序启动的时候指定 `agent` `jar` 包的位置，使用 `java -jar -javaagent:<agent.jar的位置> <运行的程序>。想在程序运行的时候通过 `attach` 来修改不太容易...
+但是也不是完全用不了，只是要能够根据当前的运行平台切换 `AttachProvider` 就可以了。但是每个平台的 `tools.jar` 都只有自己的 `AttachProvider` ，我们是 `windows` 环境打包在 `Linux` 下用就会有点麻烦。但是我后来在别人的项目中发现了 `GenericAgentTools.jar` 这个 `jar` 包有多个平台环境的 `AttachProvider` ，这样就可以多平台运行了。不过这个模块我懒得改了，具体看 `native-rasp` 那个模块的实现。
